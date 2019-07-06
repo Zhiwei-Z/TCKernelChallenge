@@ -35,15 +35,23 @@ for color in color_set:
     # main_circle[mask == 0] = [255, 255, 255]
 
 contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
-
+num = 1
 for contour in contours:
     left = min(contour, key = lambda x: x[0][0])[0][0]
     right = max(contour, key = lambda x:x[0][0])[0][0]
     top = min(contour, key = lambda x: x[0][1])[0][1]
     bot = max(contour, key = lambda x: x[0][1])[0][1]
-    if (right - left) * (bot - top) > 8:
-        cv2.rectangle(main_circle,(left - 2,top-2),(right+2,bot+2),(0,255,0),1)
-    # cv2.drawContours(main_circle, contour, -1, (0, 255, 0), 1)
+    if (right - left) * (bot - top) > 42:
+        current_crop = main_circle[top - 3:bot + 3, left - 3:right + 3]
+        cv2.imwrite('firstday%d.png' % num, current_crop)
+        num += 1
+        #cv2.imshow("each", current_crop)
+    # k = cv2.waitKey(1000) & 0xff
+    # if k == 27 : cv2.destroyAllWindows()
+
+    # if (right - left) * (bot - top) > 42:
+    #     cv2.rectangle(main_circle,(left - 3,top-3),(right+3,bot+3),(0,255,0),1)
+    #cv2.drawContours(main_circle, contour, -1, (0, 255, 0), 1)
     # #k-means grouping
     # X = np.array(list(zip(blue_points_j, blue_points_i)))
 
