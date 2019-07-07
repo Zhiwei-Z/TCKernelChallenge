@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-img = cv2.imread('pics/DH134_E6_P1_24Hours.jpeg')
+img = cv2.imread('pics/DH134_E5_P2_24Hours.jpeg')
 b,g,r = cv2.split(img)
 img2 = cv2.merge([r,g,b])
 plt.subplot(121);plt.imshow(img) # expects distorted color

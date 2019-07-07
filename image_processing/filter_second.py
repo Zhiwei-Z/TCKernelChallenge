@@ -1,13 +1,10 @@
 ﻿import cv2
 import sys
 import numpy as np
-from sklearn.cluster import KMeans
-
-
 
 tracker = cv2.TrackerCSRT_create()
 
-img = cv2.imread('pics/DH134_E5_P1_24Hours.jpeg')
+img = cv2.imread('pics/DH134_E5_P2_24Hours.jpeg')
 height = np.size(img, 0)
 width = np.size(img, 1)
 img = cv2.resize(img, (width//9, height//9))  
@@ -20,7 +17,11 @@ main_circle = img[int(bbox[1]):int(bbox[1] + bbox[3]),int(bbox[0]):int(bbox[0] +
 
 img_revised = cv2.cvtColor(main_circle, cv2.COLOR_BGR2RGB)
 
-color_set = {'yellow1':[196, 163, 94], 'yellow2':[166, 137, 79], 'yellow3':[162,152,115], 'yellow4':[143, 138,106], 'dark_yellow':[104, 102,81], 'brown':[81, 47, 45], 'brown1':[93, 62,51], 'brown2':[67, 39, 36], 'brown3': [49, 21, 17]}
+color_set = {'yellow1':[196, 163, 94], 'yellow2':[166, 137, 79], 'yellow3':[162,152,115], 
+'yellow4':[143, 138,106], 'dark_yellow':[104, 102,81], 'brown':[81, 47, 45], 
+'brown1':[93, 62,51], 'brown2':[67, 39, 36], 'brown3': [49, 21, 17], 'brown4':[53, 45, 34], 
+'brown5':[26, 15, 9], 'brown6':[16, 13,8], 'brown7':[26, 16, 14], 'brown8':[23, 12, 10], 'brown9':[11,4,0], 
+'brown10':[13,14,8], 'brown11':[12, 8, 0], 'brown12':[7,3,0]}
 
 #applying mask to get points
 for color in color_set:
@@ -28,8 +29,8 @@ for color in color_set:
     target = np.uint8([[color_set[color]]])
     hsv_target = cv2.cvtColor(target, cv2.COLOR_BGR2HSV)
     color_range = hsv_target[0][0]
-    lower_bound = np.array([color_range[0] - 10, 100 , 100])
-    upper_bound = np.array([color_range[0] + 10, 255, 255])
+    lower_bound = np.array([color_range[0] - 15, 50 , 50])
+    upper_bound = np.array([color_range[0] + 15, 255, 255])
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
 
 contours, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
@@ -39,11 +40,11 @@ for contour in contours:
     right = max(contour, key = lambda x:x[0][0])[0][0]
     top = min(contour, key = lambda x: x[0][1])[0][1]
     bot = max(contour, key = lambda x: x[0][1])[0][1]
-    # if (right - left) * (bot - top) > 35:
+    # if (right - left) * (bot - top) > 25:
     #     current_crop = main_circle[top - 3:bot + 3, left - 3:right + 3]
-    #     cv2.imwrite('secondday/secondday%d.png' % num, current_crop)
+    #     cv2.imwrite('seconde5p1/seconde5p1_%d.png' % num, current_crop)
     #     num += 1
-    if (right - left) * (bot - top) > 42:
+    if (right - left) * (bot - top) > 40:
         cv2.rectangle(main_circle,(left - 3,top-3),(right+3,bot+3),(0,255,0),1)
     # #k-means grouping
     # X = np.array(list(zip(blue_points_j, blue_points_i)))

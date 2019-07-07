@@ -1,13 +1,11 @@
 ﻿import cv2
 import sys
 import numpy as np
-from sklearn.cluster import KMeans
-
 
 
 tracker = cv2.TrackerCSRT_create()
 
-img = cv2.imread('pics/DH134_E5_P1_Iso.jpeg')
+img = cv2.imread('pics/DH134_E5_P2_Iso.jpeg')
 height = np.size(img, 0)
 width = np.size(img, 1)
 img = cv2.resize(img, (width//9, height//9))  
@@ -41,16 +39,16 @@ for contour in contours:
     right = max(contour, key = lambda x:x[0][0])[0][0]
     top = min(contour, key = lambda x: x[0][1])[0][1]
     bot = max(contour, key = lambda x: x[0][1])[0][1]
-    # if (right - left) * (bot - top) > 42:
-    #     current_crop = main_circle[top - 3:bot + 3, left - 3:right + 3]
-    #     cv2.imwrite('firstday%d.png' % num, current_crop)
-    #     num += 1
+    if (right - left) * (bot - top) > 48:
+        current_crop = main_circle[top - 3:bot + 3, left - 3:right + 3]
+        cv2.imwrite('firste5p2/firste5p2_%d.png' % num, current_crop)
+        num += 1
         #cv2.imshow("each", current_crop)
     # k = cv2.waitKey(1000) & 0xff
     # if k == 27 : cv2.destroyAllWindows()
 
-    if (right - left) * (bot - top) > 42:
-        cv2.rectangle(main_circle,(left - 3,top-3),(right+3,bot+3),(0,255,0),1)
+    # if (right - left) * (bot - top) > 48:
+    #     cv2.rectangle(main_circle,(left - 3,top-3),(right+3,bot+3),(0,255,0),1)
     #cv2.drawContours(main_circle, contour, -1, (0, 255, 0), 1)
     # #k-means grouping
     # X = np.array(list(zip(blue_points_j, blue_points_i)))
